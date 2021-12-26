@@ -1,7 +1,9 @@
-from ptdec.model import predict, train
+from unittest.mock import MagicMock, Mock
+
 import torch
 from torch.utils.data import TensorDataset
-from unittest.mock import MagicMock, Mock
+
+from ptdec.model import predict, train
 
 
 def test_train_with_prediction():

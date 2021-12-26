@@ -1,12 +1,13 @@
+from typing import Callable, Optional, Tuple, Union
+
 import numpy as np
-from sklearn.cluster import KMeans
 import torch
 import torch.nn as nn
+from sklearn.cluster import KMeans
 from torch.utils.data.dataloader import DataLoader, default_collate
-from typing import Tuple, Callable, Optional, Union
 from tqdm import tqdm
 
-from ptdec.utils import target_distribution, cluster_accuracy
+from ptdec.utils import cluster_accuracy, target_distribution
 
 
 def train(
@@ -197,7 +198,12 @@ def predict(
     dataloader = DataLoader(
         dataset, batch_size=batch_size, collate_fn=collate_fn, shuffle=False
     )
-    data_iterator = tqdm(dataloader, leave=True, unit="batch", disable=silent,)
+    data_iterator = tqdm(
+        dataloader,
+        leave=True,
+        unit="batch",
+        disable=silent,
+    )
     features = []
     actual = []
     model.eval()

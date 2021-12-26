@@ -1,18 +1,17 @@
-from typing import Optional, List
+from typing import Any, Callable, List, Optional
 
 import numpy as np
+import torch
+from scipy.sparse import issparse
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.exceptions import NotFittedError
-import torch
 from torch.optim import SGD
 from torch.optim.lr_scheduler import StepLR
 from torch.utils.data import DataLoader
 from torch.utils.data.dataset import TensorDataset
-from typing import Any, Callable
-from scipy.sparse import issparse
 
-from ptsdae.sdae import StackedDenoisingAutoEncoder
 import ptsdae.model as ae
+from ptsdae.sdae import StackedDenoisingAutoEncoder
 
 
 class SDAETransformerBase(TransformerMixin, BaseEstimator):

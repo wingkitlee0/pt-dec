@@ -1,7 +1,8 @@
 from typing import Any, Callable, Optional
+
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
 
@@ -76,7 +77,11 @@ def train(
             dataloader,
             leave=True,
             unit="batch",
-            postfix={"epo": epoch, "lss": "%.6f" % 0.0, "vls": "%.6f" % -1,},
+            postfix={
+                "epo": epoch,
+                "lss": "%.6f" % 0.0,
+                "vls": "%.6f" % -1,
+            },
             disable=silent,
         )
         for index, batch in enumerate(data_iterator):
@@ -100,7 +105,9 @@ def train(
             loss.backward()
             optimizer.step(closure=None)
             data_iterator.set_postfix(
-                epo=epoch, lss="%.6f" % loss_value, vls="%.6f" % validation_loss_value,
+                epo=epoch,
+                lss="%.6f" % loss_value,
+                vls="%.6f" % validation_loss_value,
             )
         if update_freq is not None and epoch % update_freq == 0:
             if validation_loader is not None:
@@ -137,7 +144,9 @@ def train(
                 validation_loss_value = -1
                 # validation_accuracy = -1
                 data_iterator.set_postfix(
-                    epo=epoch, lss="%.6f" % loss_value, vls="%.6f" % -1,
+                    epo=epoch,
+                    lss="%.6f" % loss_value,
+                    vls="%.6f" % -1,
                 )
             if update_callback is not None:
                 update_callback(
@@ -282,7 +291,12 @@ def predict(
     dataloader = DataLoader(
         dataset, batch_size=batch_size, pin_memory=False, shuffle=False
     )
-    data_iterator = tqdm(dataloader, leave=False, unit="batch", disable=silent,)
+    data_iterator = tqdm(
+        dataloader,
+        leave=False,
+        unit="batch",
+        disable=silent,
+    )
     features = []
     if isinstance(model, torch.nn.Module):
         model.eval()

@@ -1,7 +1,8 @@
-import torch
 from unittest import TestCase
 
-from ptsdae.sdae import build_units, StackedDenoisingAutoEncoder
+import torch
+
+from ptsdae.sdae import StackedDenoisingAutoEncoder, build_units
 
 
 class TestBuildUnits(TestCase):
@@ -20,7 +21,10 @@ class TestBuildUnits(TestCase):
                 self.assertIsInstance(item.activation, torch.nn.ReLU)
 
     def test_arguments(self):
-        units = build_units([100, 10, 5, 2], None,)
+        units = build_units(
+            [100, 10, 5, 2],
+            None,
+        )
         for item in units:
             self.assertTrue(hasattr(item, "linear"))
             self.assertFalse(hasattr(item, "activation"))

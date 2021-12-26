@@ -1,9 +1,10 @@
-import torch
-from torch.autograd import Variable
 from unittest import TestCase
 
-from ptsdae.sdae import StackedDenoisingAutoEncoder
+import torch
+from torch.autograd import Variable
+
 from ptdec.dec import DEC
+from ptsdae.sdae import StackedDenoisingAutoEncoder
 
 
 class TestAutoEncoder(TestCase):

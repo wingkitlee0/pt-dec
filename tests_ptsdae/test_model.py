@@ -1,7 +1,9 @@
-from ptsdae.model import predict, train
+from unittest.mock import Mock
+
 import torch
 from torch.utils.data import TensorDataset
-from unittest.mock import Mock
+
+from ptsdae.model import predict, train
 
 # TODO add tests for pretrain, which is admittedly not easy
 

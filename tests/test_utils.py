@@ -1,6 +1,7 @@
+from unittest import TestCase
+
 import numpy as np
 import torch
-from unittest import TestCase
 
 from ptdec.utils import cluster_accuracy, target_distribution
 

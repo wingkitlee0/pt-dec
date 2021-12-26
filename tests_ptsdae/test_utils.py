@@ -1,8 +1,9 @@
-import numpy as np
-import torch
 from unittest import TestCase
 
-from ptsdae.utils import cluster_accuracy, pretrain_accuracy, Classifier
+import numpy as np
+import torch
+
+from ptsdae.utils import Classifier, cluster_accuracy, pretrain_accuracy
 
 
 class TestClusterAccuracy(TestCase):

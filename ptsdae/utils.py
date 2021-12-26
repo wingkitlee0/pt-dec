@@ -1,9 +1,10 @@
-from cytoolz.itertoolz import sliding_window
+from typing import List, Optional
+
 import numpy as np
-from scipy.optimize import linear_sum_assignment
 import torch
 import torch.nn as nn
-from typing import List, Optional
+from cytoolz.itertoolz import sliding_window
+from scipy.optimize import linear_sum_assignment
 
 
 class Classifier(nn.Module):

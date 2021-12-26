@@ -1,5 +1,6 @@
-import torch
 from unittest import TestCase
+
+import torch
 
 from ptdec.cluster import ClusterAssignment
 

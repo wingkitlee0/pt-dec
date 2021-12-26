@@ -1,8 +1,9 @@
 from collections import OrderedDict
-from cytoolz.itertoolz import concat, sliding_window
-from typing import Callable, Iterable, Optional, Tuple, List
+from typing import Callable, Iterable, List, Optional, Tuple
+
 import torch
 import torch.nn as nn
+from cytoolz.itertoolz import concat, sliding_window
 
 
 def build_units(

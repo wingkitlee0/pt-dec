@@ -1,21 +1,22 @@
+import uuid
+
 import click
 import numpy as np
 import seaborn as sns
+import torch
 from sklearn.metrics import confusion_matrix
+from tensorboardX import SummaryWriter
 from torch.optim import SGD
 from torch.optim.lr_scheduler import StepLR
-import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 from torchvision.datasets import MNIST
-from tensorboardX import SummaryWriter
-import uuid
 
-from ptdec.dec import DEC
-from ptdec.model import train, predict
-from ptsdae.sdae import StackedDenoisingAutoEncoder
 import ptsdae.model as ae
+from ptdec.dec import DEC
+from ptdec.model import predict, train
 from ptdec.utils import cluster_accuracy
+from ptsdae.sdae import StackedDenoisingAutoEncoder
 
 
 class CachedMNIST(Dataset):
@@ -79,7 +80,11 @@ def main(cuda, batch_size, pretrain_epochs, finetune_epochs, testing_mode):
     def training_callback(epoch, lr, loss, validation_loss):
         writer.add_scalars(
             "data/autoencoder",
-            {"lr": lr, "loss": loss, "validation_loss": validation_loss,},
+            {
+                "lr": lr,
+                "loss": loss,
+                "validation_loss": validation_loss,
+            },
             epoch,
         )
 

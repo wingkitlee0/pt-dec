@@ -3,9 +3,9 @@ from unittest import TestCase
 from faker import Faker
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import GridSearchCV
-from sklearn.pipeline import make_pipeline, Pipeline
+from sklearn.pipeline import Pipeline, make_pipeline
 
-from ptsdae.sklearn_api import SDAETransformer, SDAERepresentationTransformer
+from ptsdae.sklearn_api import SDAERepresentationTransformer, SDAETransformer
 
 
 class TestSDAETransformer(TestCase):

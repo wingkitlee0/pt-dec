@@ -1,7 +1,8 @@
+from typing import Optional
+
 import torch
 import torch.nn as nn
 from torch.nn import Parameter
-from typing import Optional
 
 
 class ClusterAssignment(nn.Module):
