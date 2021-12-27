@@ -50,7 +50,10 @@ class CachedMNIST(Dataset):
 
 @click.command()
 @click.option(
-    "--cuda", help="whether to use CUDA (default False).", type=bool, default=False
+    "--cuda/--no-cuda",
+    help="whether to use CUDA (default False).",
+    type=bool,
+    default=False,
 )
 @click.option(
     "--batch-size", help="training batch size (default 256).", type=int, default=256
@@ -68,12 +71,18 @@ class CachedMNIST(Dataset):
     default=500,
 )
 @click.option(
-    "--testing-mode",
+    "--testing-mode/--not-testing-mode",
     help="whether to run in testing mode (default False).",
     type=bool,
     default=False,
 )
-def main(cuda, batch_size, pretrain_epochs, finetune_epochs, testing_mode):
+def main(
+    cuda: bool,
+    batch_size: int,
+    pretrain_epochs: int,
+    finetune_epochs: int,
+    testing_mode: bool,
+):
     writer = SummaryWriter()  # create the TensorBoard object
     # callback function to call during training, uses writer from the scope
 
@@ -94,12 +103,17 @@ def main(cuda, batch_size, pretrain_epochs, finetune_epochs, testing_mode):
     ds_val = CachedMNIST(
         train=False, cuda=cuda, testing_mode=testing_mode
     )  # evaluation dataset
+
+    # set up the StackedDenoisingAutoEncoder
+    # dimension = 5 (total no. of layer = 9)
     autoencoder = StackedDenoisingAutoEncoder(
         [28 * 28, 500, 500, 2000, 10], final_activation=None
     )
     if cuda:
         autoencoder.cuda()
     print("Pretraining stage.")
+
+    # pretraining will train each layer (i.e., ae.dimensions)
     ae.pretrain(
         ds_train,
         autoencoder,

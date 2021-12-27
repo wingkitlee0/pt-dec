@@ -5,7 +5,9 @@ import torch
 from scipy.optimize import linear_sum_assignment
 
 
-def cluster_accuracy(y_true, y_predicted, cluster_number: Optional[int] = None):
+def cluster_accuracy(
+    y_true, y_predicted, cluster_number: Optional[int] = None
+) -> tuple[dict[int, int], float]:
     """
     Calculate clustering accuracy after using the linear_sum_assignment function in SciPy to
     determine reassignments.

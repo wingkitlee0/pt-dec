@@ -3,7 +3,7 @@ from typing import Any, Callable, Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader, TensorDataset, Dataset
 from tqdm import tqdm
 
 from ptsdae.dae import DenoisingAutoencoder
@@ -11,7 +11,7 @@ from ptsdae.sdae import StackedDenoisingAutoEncoder
 
 
 def train(
-    dataset: torch.utils.data.Dataset,
+    dataset: Dataset,
     autoencoder: torch.nn.Module,
     epochs: int,
     batch_size: int,
@@ -23,7 +23,7 @@ def train(
     sampler: Optional[torch.utils.data.sampler.Sampler] = None,
     silent: bool = False,
     update_freq: Optional[int] = 1,
-    update_callback: Optional[Callable[[float, float], None]] = None,
+    update_callback: Optional[Callable[[float, float, float, float], None]] = None,
     num_workers: Optional[int] = None,
     epoch_callback: Optional[Callable[[int, torch.nn.Module], None]] = None,
 ) -> None:
@@ -68,8 +68,8 @@ def train(
         validation_loader = None
     loss_function = nn.MSELoss()
     autoencoder.train()
-    validation_loss_value = -1
-    loss_value = 0
+    validation_loss_value = -1.0
+    loss_value = 0.0
     for epoch in range(epochs):
         if scheduler is not None:
             scheduler.step()
@@ -162,13 +162,13 @@ def train(
 
 
 def pretrain(
-    dataset,
+    dataset: Dataset,
     autoencoder: StackedDenoisingAutoEncoder,
     epochs: int,
     batch_size: int,
     optimizer: Callable[[torch.nn.Module], torch.optim.Optimizer],
     scheduler: Optional[Callable[[torch.optim.Optimizer], Any]] = None,
-    validation: Optional[torch.utils.data.Dataset] = None,
+    validation: Optional[Dataset] = None,
     corruption: Optional[float] = None,
     cuda: bool = True,
     sampler: Optional[torch.utils.data.sampler.Sampler] = None,

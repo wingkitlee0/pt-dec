@@ -69,7 +69,7 @@ class StackedDenoisingAutoEncoder(nn.Module):
         :param gain: gain parameter to pass to weight_init
         """
         super(StackedDenoisingAutoEncoder, self).__init__()
-        self.dimensions = dimensions
+        self.dimensions = dimensions  # The number of dimensions is N when the total number of layers is 2*N-1 (must be odd, with the middle layer being hidden)
         self.embedding_dimension = dimensions[0]
         self.hidden_dimension = dimensions[-1]
         # construct the encoder

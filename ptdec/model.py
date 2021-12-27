@@ -1,17 +1,18 @@
-from typing import Callable, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Tuple, Union
 
 import numpy as np
 import torch
 import torch.nn as nn
 from sklearn.cluster import KMeans
 from torch.utils.data.dataloader import DataLoader, default_collate
+from torch.utils.data import Dataset
 from tqdm import tqdm
 
 from ptdec.utils import cluster_accuracy, target_distribution
 
 
 def train(
-    dataset: torch.utils.data.Dataset,
+    dataset: Dataset,
     model: torch.nn.Module,
     epochs: int,
     batch_size: int,
@@ -23,7 +24,7 @@ def train(
     silent: bool = False,
     update_freq: int = 10,
     evaluate_batch_size: int = 1024,
-    update_callback: Optional[Callable[..., None]] = None,
+    update_callback: Optional[Callable[[float, float, Optional[float]], None]] = None,
     epoch_callback: Optional[Callable[[int, torch.nn.Module], None]] = None,
 ) -> None:
     """
@@ -73,7 +74,7 @@ def train(
         disable=silent,
     )
     kmeans = KMeans(n_clusters=model.cluster_number, n_init=20)
-    model.train()
+    model.train(mode=True)  # set training mode
     features = []
     actual = []
     # form initial cluster centres
@@ -122,7 +123,7 @@ def train(
                 batch = batch.cuda(non_blocking=True)
             output = model(batch)
             target = target_distribution(output).detach()
-            loss = loss_function(output.log(), target) / output.shape[0]
+            loss: nn.KLDivLoss = loss_function(output.log(), target) / output.shape[0]
             data_iterator.set_postfix(
                 epo=epoch,
                 acc="%.4f" % (accuracy or 0.0),
@@ -175,7 +176,7 @@ def train(
 
 
 def predict(
-    dataset: torch.utils.data.Dataset,
+    dataset: Dataset,
     model: torch.nn.Module,
     batch_size: int = 1024,
     collate_fn=default_collate,
