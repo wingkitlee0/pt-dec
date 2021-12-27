@@ -174,7 +174,7 @@ def pretrain(
     sampler: Optional[torch.utils.data.sampler.Sampler] = None,
     silent: bool = False,
     update_freq: Optional[int] = 1,
-    update_callback: Optional[Callable[[float, float], None]] = None,
+    update_callback: Optional[Callable[..., None]] = None,
     num_workers: Optional[int] = None,
     epoch_callback: Optional[Callable[[int, torch.nn.Module], None]] = None,
 ) -> None:

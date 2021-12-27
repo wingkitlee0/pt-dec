@@ -23,7 +23,7 @@ def train(
     silent: bool = False,
     update_freq: int = 10,
     evaluate_batch_size: int = 1024,
-    update_callback: Optional[Callable[[float, float], None]] = None,
+    update_callback: Optional[Callable[..., None]] = None,
     epoch_callback: Optional[Callable[[int, torch.nn.Module], None]] = None,
 ) -> None:
     """
