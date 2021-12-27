@@ -5,10 +5,10 @@ import numpy as np
 import seaborn as sns
 import torch
 from sklearn.metrics import confusion_matrix
-from tensorboardX import SummaryWriter
 from torch.optim import SGD
 from torch.optim.lr_scheduler import StepLR
 from torch.utils.data import Dataset
+from torch.utils.tensorboard import SummaryWriter
 from torchvision import transforms
 from torchvision.datasets import MNIST
 

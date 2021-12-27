@@ -4,8 +4,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 from sklearn.cluster import KMeans
-from torch.utils.data.dataloader import DataLoader, default_collate
 from torch.utils.data import Dataset
+from torch.utils.data.dataloader import DataLoader, default_collate
 from tqdm import tqdm
 
 from ptdec.utils import cluster_accuracy, target_distribution
